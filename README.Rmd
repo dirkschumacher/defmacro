@@ -23,6 +23,8 @@ The idea is to add a macro expansion step during the `.onLoad` step of the packa
 
 A macro is a function that takes code and returns code.
 
+An example package is [here](https://github.com/dirkschumacher/defmacroex).
+
 ## Example
 
 For example in a package you define a macro that evaluates an expression at "compile time":

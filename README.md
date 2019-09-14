@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 The goal of `defmacro` is to experiment with compile time macros in R.
@@ -12,6 +14,9 @@ The idea is to add a macro expansion step during the `.onLoad` step of
 the package.
 
 A macro is a function that takes code and returns code.
+
+An example package is
+[here](https://github.com/dirkschumacher/defmacroex).
 
 ## Example
 
