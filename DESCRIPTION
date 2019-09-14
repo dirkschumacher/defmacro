@@ -1,0 +1,13 @@
+Package: defmacro
+Title: Load Time Package Macros
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Dirk",
+           family = "Schumacher",
+           role = c("aut", "cre"),
+           email = "mail@dirk-schumacher.net")
+Description: Exactly what you think it does.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
