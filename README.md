@@ -34,7 +34,7 @@ quantile of the standard normal distribtion:
 
 ``` r
 is_invalid <- function(value) {
-  value <= constexpr(qnorm(0.975))
+  value > constexpr(qnorm(0.975))
 }
 ```
 
@@ -45,7 +45,7 @@ exported to the user:
 defmacro::expand_function(is_invalid)
 #> function (value) 
 #> {
-#>     value <= 1.95996398454005
+#>     value > 1.95996398454005
 #> }
 ```
 

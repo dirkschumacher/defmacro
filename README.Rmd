@@ -39,7 +39,7 @@ Then you might have a regular function that tests if a value exceeds a quantile 
 
 ```{r}
 is_invalid <- function(value) {
-  value <= constexpr(qnorm(0.975))
+  value > constexpr(qnorm(0.975))
 }
 ```
 
