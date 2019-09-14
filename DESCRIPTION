@@ -11,3 +11,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+URL: https://github.com/dirkschumacher/defmacro
+BugReports: https://github.com/dirkschumacher/defmacro/issues
