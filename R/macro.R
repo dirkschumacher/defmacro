@@ -26,10 +26,16 @@ expand_function <- function(fun, envir = parent.frame()) {
 #' @export
 onload <- function(pkg_name) {
   envir <- getNamespace(pkg_name)
+  macro_envir <- new.env(parent = baseenv())
+  for (name in names(envir)) {
+    if ("defmacro_macro" %in% class(envir[[name]])) {
+      macro_envir[[name]] <- envir[[name]]
+    }
+  }
   for (name in names(envir)) {
     if (is.function(envir[[name]])) {
       assign(name,
-        expand_function(envir[[name]], envir),
+        expand_function(envir[[name]], macro_envir),
         envir = envir
       )
     }
