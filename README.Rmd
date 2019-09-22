@@ -54,23 +54,18 @@ Thus the call to `qnorm` never happens at runtime as it could have been evaluate
 You could also define your own piping function and have all the overhead removed during runtime:
 
 ```{r}
-pipe <- defmacro::defmacro(function(expr) {
-  Reduce(function(acc, el) {
-    fun_name <- el[[1L]]
-    fun_args <- c(list(acc), unlist(as.list(el[-1L]), FALSE))
-    rlang::get_expr(rlang::quo(`!!`(fun_name)(!!!(fun_args))))
-  }, expr[-1L])
+`%>%` <- defmacro::defmacro(function(lhs, rhs) {
+  fun_args <- c(list(lhs), unlist(as.list(rhs[-1L]), FALSE))
+  rlang::get_expr(rlang::quo(`!!`(rhs[[1L]])(!!!(fun_args))))
 })
 ```
 
 ```{r}
 analyze_dataset <- function(data) {
-  pipe({
-    data
-    dplyr::filter(hp > constexpr(50 + 50))
-    dplyr::group_by(cyl)
+  data %>%
+    dplyr::filter(hp > constexpr(50 + 50)) %>%
+    dplyr::group_by(cyl) %>%
     dplyr::summarise(dplyr::n())
-  })
 }
 ```
 
