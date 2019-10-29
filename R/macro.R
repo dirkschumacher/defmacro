@@ -56,7 +56,9 @@ expand_code <- function(code, macro_environment) {
         })
         result <- do.call(macro$expand, args)
         inplace_update_ast(path, result)
-        push(list(ast = result, path = path))
+        if (!is.null(result)) {
+          push(list(ast = result, path = path))
+        }
       } else {
         for (i in seq_len(length(ast))) {
           if (i > 1L) {
