@@ -51,10 +51,7 @@ expand_code <- function(code, macro_environment) {
       fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
       if (!is.null(macro_environment[[fun_name]])) {
         macro <- macro_environment[[fun_name]]
-        args <- lapply(seq_len(length(ast) - 1L) + 1, function(i) {
-          bquote(quote(.(ast[[i]])))
-        })
-        result <- do.call(macro$expand, args)
+        result <- exec(macro$expand, !!!as.list(ast)[-1])
         inplace_update_ast(path, result)
         push(list(ast = result, path = path))
       } else {

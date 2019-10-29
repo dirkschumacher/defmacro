@@ -3,3 +3,4 @@
 export(defmacro)
 export(expand_function)
 export(onload)
+import(rlang)
