@@ -79,3 +79,26 @@ defmacro::expand_function(analyze_dataset)
 #>         100), cyl), dplyr::n())
 #> }
 ```
+
+This can also be used to elide parts of your code:
+
+``` r
+dash_if <- defmacro::defmacro(function(code, condition) {
+  if (condition) code
+})
+```
+
+``` r
+conditional <- function() {
+  dash_if(kept(), TRUE)
+  dash_if(removed(), FALSE)
+}
+```
+
+``` r
+defmacro::expand_function(conditional)
+#> function () 
+#> {
+#>     kept()
+#> }
+```
