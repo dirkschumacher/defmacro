@@ -29,7 +29,7 @@ onload <- function(pkg_name) {
   envir <- getNamespace(pkg_name)
   macro_envir <- new.env(parent = baseenv())
   for (name in names(envir)) {
-    if (inherits("defmacro_macro", envir[[name]])) {
+    if (inherits(envir[[name]], "defmacro_macro")) {
       macro_envir[[name]] <- envir[[name]]
     }
   }
