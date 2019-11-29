@@ -10,5 +10,7 @@ onload(pkg_name)
 \item{pkg_name}{the package name}
 }
 \description{
-The onLoad hook
+It looks in the package code for functions and recursively
+expands all macros. After expansion it compiles the function
+to bytecode using the \code{compiler} package.
 }

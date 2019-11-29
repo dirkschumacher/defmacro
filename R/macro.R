@@ -23,6 +23,11 @@ expand_function <- function(fun, envir = parent.frame()) {
 }
 
 #' The onLoad hook
+#'
+#' It looks in the package code for functions and recursively
+#' expands all macros. After expansion it compiles the function
+#' to bytecode using the \code{compiler} package.
+#'
 #' @param pkg_name the package name
 #' @export
 onload <- function(pkg_name) {
@@ -35,8 +40,9 @@ onload <- function(pkg_name) {
   }
   for (name in names(envir)) {
     if (is.function(envir[[name]])) {
-      assign(name,
-        expand_function(envir[[name]], macro_envir),
+      assign(
+        name,
+        compiler::cmpfun(expand_function(envir[[name]], macro_envir)),
         envir = envir
       )
     }
