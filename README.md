@@ -7,6 +7,10 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/dirkschumacher/defmacro.svg?branch=master)](https://travis-ci.org/dirkschumacher/defmacro)
+[![Codecov test
+coverage](https://codecov.io/gh/dirkschumacher/defmacro/branch/master/graph/badge.svg)](https://codecov.io/gh/dirkschumacher/defmacro?branch=master)
 <!-- badges: end -->
 
 The goal of `defmacro` is to experiment with compile time macros in R.
@@ -80,7 +84,7 @@ defmacro::expand_function(analyze_dataset)
 #> }
 ```
 
-This can also be used to elide parts of your code:
+This can also be used to elide parts of your code, akin to `#if` in C:
 
 ``` r
 dash_if <- defmacro::defmacro(function(code, condition) {
