@@ -6,7 +6,8 @@
 #'
 #' @export
 defmacro <- function(fun) {
-  structure(list(expand = fun), class = "defmacro_macro")
+  class(fun) <- c("defmacro_macro", class(fun))
+  fun
 }
 
 #' Expands code within a function
@@ -51,7 +52,7 @@ expand_code <- function(code, macro_environment) {
       fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
       if (!is.null(macro_environment[[fun_name]])) {
         macro <- macro_environment[[fun_name]]
-        result <- exec(macro$expand, !!!as.list(ast)[-1])
+        result <- exec(macro, !!!as.list(ast)[-1])
         inplace_update_ast(path, result)
         if (!is.null(result)) {
           push(list(ast = result, path = path))
