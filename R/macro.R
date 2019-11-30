@@ -17,8 +17,12 @@ defmacro <- function(fun) {
 #' @export
 expand_function <- function(fun, envir = parent.frame()) {
   stopifnot(is.function(fun))
+  old_classes <- class(fun)
   code <- expand_code(body(fun), envir)
   body(fun) <- code
+  if (length(old_classes) > 1) {
+    class(fun) <- old_classes
+  }
   fun
 }
 
@@ -32,23 +36,16 @@ expand_function <- function(fun, envir = parent.frame()) {
 #' @export
 onload <- function(pkg_name) {
   envir <- getNamespace(pkg_name)
-  macro_envir <- new.env(parent = baseenv())
-  for (name in names(envir)) {
-    if (inherits(envir[[name]], "defmacro_macro")) {
-      macro_envir[[name]] <- envir[[name]]
-    }
-  }
   for (name in names(envir)) {
     if (is.function(envir[[name]])) {
       assign(
         name,
-        compiler::cmpfun(expand_function(envir[[name]], macro_envir)),
+        compiler::cmpfun(expand_function(envir[[name]], envir)),
         envir = envir
       )
     }
   }
 }
-
 
 expand_code <- function(code, macro_environment) {
   on_element <- function(push, inplace_update_ast, get_ast_value, element) {
@@ -56,9 +53,9 @@ expand_code <- function(code, macro_environment) {
     ast <- if (is.null(element$ast)) get_ast_value(path) else element$ast
     if (is.call(ast)) {
       fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
-      if (!is.null(macro_environment[[fun_name]])) {
-        macro <- macro_environment[[fun_name]]
-        result <- exec(macro, !!!as.list(ast)[-1])
+      fun <- get0(fun_name, envir = macro_environment)
+      if (is.function(fun) && inherits(fun, "defmacro_macro")) {
+        result <- exec(fun, !!!as.list(ast)[-1])
         inplace_update_ast(path, result)
         if (!is.null(result)) {
           push(list(ast = result, path = path))
