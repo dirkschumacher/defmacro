@@ -10,6 +10,7 @@ Description: Exactly what you think it does.
 License: MIT + file LICENSE
 URL: https://github.com/dirkschumacher/defmacro
 BugReports: https://github.com/dirkschumacher/defmacro/issues
+Depends: R (>= 3.1)
 Imports: 
     rlang,
     compiler
