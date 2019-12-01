@@ -7,7 +7,9 @@ test_that("simple expand example works", {
   }
   fun <- expand_function(fun)
   expect_true(is.function(fun))
-  expect_equal(body(fun), quote({a + b}))
+  expect_equal(body(fun), quote({
+    a + b
+  }))
 })
 
 test_that("expanding a macro retains attributes", {
