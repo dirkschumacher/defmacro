@@ -60,13 +60,9 @@ onload <- function(envir = topenv(parent.frame())) {
 }
 
 expand_code <- function(code, macro_environment) {
-  on_element <- function(push, inplace_update_ast, get_ast_value, element) {
+  on_element <- function(push, inplace_update_ast, element) {
     path <- element$path
-    ast <- if (is.null(element$ast)) {
-      get_ast_value(path)
-    } else {
-      element$ast
-    }
+    ast <- element$ast
     if (!is.call(ast)) {
       return()
     }
@@ -97,13 +93,6 @@ ast_walker <- function(ast, on_element) {
   stack_data <- list()
   push <- function(x) stack_data <<- list(x, stack_data)
   push(list(ast = ast, path = integer()))
-  get_ast_value <- function(path) {
-    if (length(path) > 0L) {
-      ast[[path]]
-    } else {
-      ast
-    }
-  }
   inplace_update_ast <- function(path, value) {
     # update the ast in place
     if (length(path) > 0L) {
@@ -115,7 +104,7 @@ ast_walker <- function(ast, on_element) {
   while (length(stack_data) > 0L) {
     element <- stack_data[[1L]]
     stack_data <- stack_data[[2L]]
-    on_element(push, inplace_update_ast, get_ast_value, element)
+    on_element(push, inplace_update_ast, element)
   }
   ast
 }
