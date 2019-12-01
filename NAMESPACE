@@ -2,5 +2,6 @@
 
 export(defmacro)
 export(expand_function)
+export(is_macro)
 export(onload)
 import(rlang)

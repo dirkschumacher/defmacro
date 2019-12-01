@@ -10,7 +10,17 @@ defmacro <- function(fun) {
   fun
 }
 
+#' Checks if an object is a macro
+#'
+#' @param fun any object
+#'
+#' @export
+is_macro <- function(fun) {
+  is.function(fun) && inherits(fun, "defmacro_macro")
+}
+
 #' Expands code within a function
+#'
 #' @param fun the function
 #' @param envir the environment where to look for macros and other symbols
 #'
@@ -50,22 +60,27 @@ onload <- function(pkg_name) {
 expand_code <- function(code, macro_environment) {
   on_element <- function(push, inplace_update_ast, get_ast_value, element) {
     path <- element$path
-    ast <- if (is.null(element$ast)) get_ast_value(path) else element$ast
-    if (is.call(ast)) {
-      fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
-      fun <- get0(fun_name, envir = macro_environment)
-      if (is.function(fun) && inherits(fun, "defmacro_macro")) {
-        result <- exec(fun, !!!as.list(ast)[-1])
-        inplace_update_ast(path, result)
-        if (!is.null(result)) {
-          push(list(ast = result, path = path))
-        }
-      } else {
-        for (i in seq_len(length(ast))) {
-          if (i > 1L) {
-            push(list(ast = ast[[i]], path = c(path, i)))
-          }
-        }
+    ast <- if (is.null(element$ast)) {
+      get_ast_value(path)
+    } else {
+      element$ast
+    }
+    if (!is.call(ast)) {
+      return()
+    }
+    fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
+    fun <- get0(fun_name, envir = macro_environment)
+    if (is_macro(fun)) {
+      result <- exec(fun, !!!as.list(ast)[-1])
+      inplace_update_ast(path, result)
+      if (!is.null(result)) {
+        push(list(ast = result, path = path))
+      }
+      return()
+    }
+    for (i in seq_len(length(ast))) {
+      if (i > 1L) {
+        push(list(ast = ast[[i]], path = c(path, i)))
       }
     }
   }
