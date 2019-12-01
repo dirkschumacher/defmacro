@@ -42,15 +42,17 @@ expand_function <- function(fun, envir = parent.frame()) {
 #' expands all macros. After expansion it compiles the function
 #' to bytecode using the \code{compiler} package.
 #'
-#' @param pkg_name the package name
+#' @param envir an environment in which the macro expansion is being done.
+#'
 #' @export
-onload <- function(pkg_name) {
-  envir <- getNamespace(pkg_name)
-  for (name in names(envir)) {
-    if (is.function(envir[[name]])) {
+onload <- function(envir = topenv(parent.frame())) {
+  names <- ls(envir, all.names = TRUE, sort = FALSE)
+  for (name in names) {
+    obj <- get0(name, envir = envir)
+    if (is.function(obj)) {
       assign(
         name,
-        compiler::cmpfun(expand_function(envir[[name]], envir)),
+        compiler::cmpfun(expand_function(obj, envir)),
         envir = envir
       )
     }

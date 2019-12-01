@@ -106,3 +106,8 @@ defmacro::expand_function(conditional)
 #>     kept()
 #> }
 ```
+
+## Related packages
+
+  - [debugme](https://github.com/r-lib/debugme) - Easy and efficient
+    debugging for R packages

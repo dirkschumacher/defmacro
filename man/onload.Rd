@@ -4,10 +4,10 @@
 \alias{onload}
 \title{The onLoad hook}
 \usage{
-onload(pkg_name)
+onload(envir = topenv(parent.frame()))
 }
 \arguments{
-\item{pkg_name}{the package name}
+\item{envir}{an environment in which the macro expansion is being done.}
 }
 \description{
 It looks in the package code for functions and recursively
