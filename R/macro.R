@@ -63,7 +63,7 @@ expand_code <- function(code, macro_environment) {
   on_element <- function(push, inplace_update_ast, element) {
     path <- element$path
     ast <- element$ast
-    if (!is.call(ast)) {
+    if (missing(ast) || !is.call(ast)) {
       return()
     }
     fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
