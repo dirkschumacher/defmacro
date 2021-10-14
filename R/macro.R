@@ -43,7 +43,7 @@ expand_function <- function(fun, envir = parent.frame()) {
 #' to bytecode using the \code{compiler} package.
 #'
 #' @param envir an environment in which the macro expansion is being done.
-#'
+#' @importFrom compiler cmpfun
 #' @export
 onload <- function(envir = topenv(parent.frame())) {
   names <- ls(envir, all.names = FALSE, sorted = FALSE)
@@ -52,7 +52,7 @@ onload <- function(envir = topenv(parent.frame())) {
     if (is.function(obj)) {
       assign(
         name,
-        compiler::cmpfun(expand_function(obj, envir)),
+        cmpfun(expand_function(obj, envir)),
         envir = envir
       )
     }
