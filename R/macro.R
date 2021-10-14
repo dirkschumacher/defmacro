@@ -46,7 +46,7 @@ expand_function <- function(fun, envir = parent.frame()) {
 #'
 #' @export
 onload <- function(envir = topenv(parent.frame())) {
-  names <- ls(envir, all.names = FALSE, sort = FALSE)
+  names <- ls(envir, all.names = FALSE, sorted = FALSE)
   for (name in names) {
     obj <- get0(name, envir = envir)
     if (is.function(obj)) {
