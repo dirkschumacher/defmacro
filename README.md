@@ -6,13 +6,13 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Travis build
 status](https://travis-ci.org/dirkschumacher/defmacro.svg?branch=master)](https://travis-ci.org/dirkschumacher/defmacro)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/dirkschumacher/defmacro?branch=master&svg=true)](https://ci.appveyor.com/project/dirkschumacher/defmacro)
 [![Codecov test
-coverage](https://codecov.io/gh/dirkschumacher/defmacro/branch/master/graph/badge.svg)](https://codecov.io/gh/dirkschumacher/defmacro?branch=master)
+coverage](https://codecov.io/gh/dirkschumacher/defmacro/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dirkschumacher/defmacro?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/defmacro)](https://CRAN.R-project.org/package=defmacro)
 <!-- badges: end -->
