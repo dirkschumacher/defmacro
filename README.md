@@ -7,14 +7,11 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![Travis build
-status](https://travis-ci.org/dirkschumacher/defmacro.svg?branch=master)](https://travis-ci.org/dirkschumacher/defmacro)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/dirkschumacher/defmacro?branch=master&svg=true)](https://ci.appveyor.com/project/dirkschumacher/defmacro)
 [![Codecov test
 coverage](https://codecov.io/gh/dirkschumacher/defmacro/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dirkschumacher/defmacro?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/defmacro)](https://CRAN.R-project.org/package=defmacro)
+[![R-CMD-check](https://github.com/dirkschumacher/defmacro/workflows/R-CMD-check/badge.svg)](https://github.com/dirkschumacher/defmacro/actions)
 <!-- badges: end -->
 
 The goal of `defmacro` is to experiment with compile time macros in R.
@@ -55,6 +52,7 @@ defmacro::expand_function(is_invalid)
 #> {
 #>     value > 1.95996398454005
 #> }
+#> <environment: 0x1386bc130>
 ```
 
 Thus the call to `qnorm` never happens at runtime as it could have been
@@ -86,6 +84,7 @@ defmacro::expand_function(analyze_dataset)
 #>     dplyr::summarise(dplyr::group_by(dplyr::filter(data, hp > 
 #>         100), cyl), dplyr::n())
 #> }
+#> <environment: 0x1386bc130>
 ```
 
 This can also be used to elide parts of your code, akin to `#if` in C:
@@ -109,9 +108,10 @@ defmacro::expand_function(conditional)
 #> {
 #>     kept()
 #> }
+#> <environment: 0x1386bc130>
 ```
 
 ## Related packages
 
-  - [debugme](https://github.com/r-lib/debugme) - Easy and efficient
+-   [debugme](https://github.com/r-lib/debugme) - Easy and efficient
     debugging for R packages
