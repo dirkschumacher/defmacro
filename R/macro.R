@@ -60,51 +60,21 @@ onload <- function(envir = topenv(parent.frame())) {
 }
 
 expand_code <- function(code, macro_environment) {
-  on_element <- function(push, inplace_update_ast, element) {
-    path <- element$path
-    ast <- element$ast
-    if (missing(ast) || !is.call(ast)) {
-      return()
-    }
-    fun_name <- paste0(deparse(ast[[1L]]), collapse = "")
-    fun <- get0(fun_name, envir = macro_environment)
-    if (is_macro(fun)) {
-      result <- exec(fun, !!!as.list(ast)[-1])
-      inplace_update_ast(path, result)
-      if (!is.null(result)) {
-        push(list(ast = result, path = path))
-      }
-      return()
-    }
-    for (i in seq_len(length(ast))) {
-      if (i > 1L) {
-        push(list(ast = ast[[i]], path = c(path, i)))
-      }
+  if (missing(code) || !is.call(code)) {
+    return(code)
+  }
+  fun_name <- paste0(deparse(code[[1]]), collapse = "")
+  fun <- get0(fun_name, envir = macro_environment)
+  if (is_macro(fun)) {
+    quoted_args <- lapply(seq_len(length(code) - 1) + 1, function(i) {
+      bquote(quote(.(code[[i]])))
+    })
+    return(do.call(fun, quoted_args))
+  }
+  for (i in seq_len(length(code))) {
+    if (i > 1L) {
+      code[[i]] <- expand_code(code[[i]], macro_environment)
     }
   }
-  ast_walker(code, on_element)
-}
-
-
-# walks around a central AST and changes it
-# it does not use recursion to avoid memory issues
-ast_walker <- function(ast, on_element) {
-  # rather just use the path to query ast on demand
-  stack_data <- list()
-  push <- function(x) stack_data <<- list(x, stack_data)
-  push(list(ast = ast, path = integer()))
-  inplace_update_ast <- function(path, value) {
-    # update the ast in place
-    if (length(path) > 0L) {
-      ast[[path]] <<- value
-    } else {
-      ast <<- value
-    }
-  }
-  while (length(stack_data) > 0L) {
-    element <- stack_data[[1L]]
-    stack_data <- stack_data[[2L]]
-    on_element(push, inplace_update_ast, element)
-  }
-  ast
+  code
 }
