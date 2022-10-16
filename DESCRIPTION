@@ -2,10 +2,16 @@ Package: defmacro
 Title: Load Time Package Macros
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Dirk",
-           family = "Schumacher",
-           role = c("aut", "cre"),
-           email = "mail@dirk-schumacher.net")
+    c(person(given = "Dirk",
+             family = "Schumacher",
+             role = c("aut", "cre"),
+             email = "mail@dirk-schumacher.net"),
+      person(given = "Kirill",
+             family = "Müller",
+             role = c("ctb"),
+             email = "kirill@cynkra.com",
+             comment = c(ORCID = "0000-0002-1416-3412"))
+    )
 Description: Exactly what you think it does.
 License: MIT + file LICENSE
 URL: https://github.com/dirkschumacher/defmacro
